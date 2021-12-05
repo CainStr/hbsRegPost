@@ -1,4 +1,3 @@
-'use strict';
 const {
   Model
 } = require('sequelize');
@@ -12,24 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  };
-  // Post.init({
-  //   title: {
-  //     type: DataTypes.STRING,
-  //     allowNull: false,
-  //   },
-  //   picture: {
-  //     type: DataTypes.STRING,
-  //     allowNull: false,
-  //     validate: {
-  //       isUrl: true,
-  //     },
-  //   },
-  //     description: {
-  //       type: DataTypes.STRING,
-  //       allowNull: false,
-  //     },
-  //   }, {
+  }
       Post.init({
         title: {
           type: DataTypes.STRING,
