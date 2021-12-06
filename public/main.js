@@ -2,9 +2,11 @@
 // для проверки подключения скрипта 
 console.log('work')
 // чтобы найти форму . $-условный знак, о котором договорились для ДОМ элементов
-const $postAddForm = document.forms.postAddForm
+const $postAddForm = document.forms.postaddform
 //к дом элементу проверяем обращение через браузер document.querySelector('[data-postwr]')
-const $postsWr = document.querySelector('[data-postsWr]')
+const $postsWr = document.querySelector('[data-postswr]')
+// Кнопка для заагрузки постов, на которую повесим загрузку , при прокрутке
+const $loadBtn = document.querySelector('[data-load]')
 
 // создаем функцию с разметкой  в виде строки с шаблонными строками, в которую передадим аргументом объект и вытащим константы через деструктуризацию проверяем, что  в hbs  естьт data- атрибут для обращения к нему, копируем разметку 
 
@@ -46,6 +48,9 @@ $postAddForm?.addEventListener('submit', async (event) => {
 
   // метод вставляющий html разметку в DOM дерево (буквально переводится вставить по соседству ) ( аргументом принимается место куда я хочу вставить  )
   $postsWr.insertAdjacentHTML('afterbegin', generateHtmlForPost(newPostFromServer))
+  //Для очистки формы , после добавления поста
+  event.target.reset()
+
 })
 // вешаем обрабочик собыий на $postsWr --> внешний блок  
 $postsWr?.addEventListener('click', async (event) => {
@@ -55,17 +60,64 @@ $postsWr?.addEventListener('click', async (event) => {
     //нужен id картоочки , ищем с помощью closest верхнего родителя с data артрибутом id
     const $postsWr = event.target.closest('[data-id]')
     const postId = $postsWr.dataset.id
-  
 
-  const response = await fetch('/posts', {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ id: postId }),
-  })
-  if (response.status = 200) {
-    $postsWr.remove()
-  }
+    if (await deletePost(postId, 3, 1e3))
+      $postsWr.remove()
   }
 })
+
+const deletePost = async (id, countAttempt, delay) => {
+  try {
+    if (countAttempt === 0) throw new Error('Server ot responded')
+
+    const response = await fetch('/posts', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id }),
+    })
+    if (response.status === 200) {
+      return true
+    }
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(deletePost(id, countAttempt - 1, delay))
+      }, delay)
+    })
+
+  } catch (error) {
+    alert('Some error on server')
+    return false
+  }
+}
+
+async function loadNewPosts() {
+  const offset = +$loadBtn.dataset.load
+
+  const response = await fetch(`/posts/get?offset=${offset}`)
+  const newPosts = await response.json()
+  const resultStr = newPosts.reduce((aac, post) => aac += generateHtmlForPost(post), '')
+
+  $loadBtn.dataset.load = offset + 1
+  $postsWr.insertAdjacentHTML('beforeend', resultStr)
+}
+
+$loadBtn.addEventListener('click', (event) => {
+  event.preventDefault()
+  loadNewPosts()
+})
+
+const optios = {
+  threshold: 1.0,
+}
+const callback = (entries, observer) => {
+  if (entries[0].isIntersecting) {
+    loadNewPosts()
+  }
+}
+
+const observer = new IntersectionObserver(callback, optios)
+
+observer.observe($loadBtn)
