@@ -1,0 +1,20 @@
+<script defer src="../edit.js"></script>
+<form name="postEditForm" data-id="{{post.id}}" class="d-flex flex-column align-items-center">
+  <div class="mb-3">
+    <input type="text" name="title" placeholder="Title" class="form-control" id="exampleInputEmail1"
+      aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <input type="text" name="picture" placeholder="Picture" class="form-control" id="exampleInputEmail1" value="{{post.picture}}"
+      aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <input type="text" name="description" placeholder="Description" class="form-control" id="exampleInputEmail1"
+      aria-describedby="emailHelp">
+  </div>
+  
+  <button data-edit="edit" type="submit" class="btn btn-primary">Edit</button>
+</form>
+
+<hr />
+

@@ -5,6 +5,7 @@ const hbs = require('hbs')
 const PORT = 3000
 const indexRouter = require('./src/routes/index.router')
 const postsRouter = require('./src/routes/posts.router')
+const editRouter = require('./src/routes/edit.router')
 // console.log(hbs)
 const morgan = require('morgan')
 // app.use(express.json())
@@ -19,5 +20,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true })) // <- 'application/x-www-form-urlencoded'
 app.use('/', indexRouter)
 app.use('/posts', postsRouter)
+app.use('/edit', editRouter)
 
 app.listen(PORT, () => console.log('Шарманка завелась'))

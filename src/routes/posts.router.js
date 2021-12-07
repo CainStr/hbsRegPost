@@ -19,6 +19,7 @@ postsRouter.route('')
               <h5 class="card-title">${newPost.title}</h5>
               <p class="card-text">${newPost.description}</p>
               <a data-action="delete" href="#" class="btn btn-danger">Delete</a>
+              <a data-action="edit" href="/edit/${newPost.id}" class="btn btn-danger">edit</a>
             </div>
           </div>`
       }

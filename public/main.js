@@ -3,6 +3,8 @@
 console.log('work')
 // чтобы найти форму . $-условный знак, о котором договорились для ДОМ элементов
 const $postAddForm = document.forms.postAddForm
+
+
 //к дом элементу проверяем обращение через браузер document.querySelector('[data-postwr]')
 const $postsWr = document.querySelector('[data-postsWr]')
 

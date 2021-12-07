@@ -1,12 +1,15 @@
 <form name="postAddForm" class="d-flex flex-column align-items-center">
   <div class="mb-3">
-    <input type="text" name="title" placeholder="Title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-  </div>
- <div class="mb-3">
-    <input type="text" name="picture" placeholder="Picture" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <input type="text" name="title" placeholder="Title" class="form-control" id="exampleInputEmail1"
+      aria-describedby="emailHelp">
   </div>
   <div class="mb-3">
-    <input type="text" name="description" placeholder="Description" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <input type="text" name="picture" placeholder="Picture" class="form-control" id="exampleInputEmail1"
+      aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <input type="text" name="description" placeholder="Description" class="form-control" id="exampleInputEmail1"
+      aria-describedby="emailHelp">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
@@ -15,14 +18,16 @@
 
 
 <div data-postsWr class="d-flex flex-column align-items-center">
-	{{#each allPosts}}
-		<div data-id="{{this.id}}" class="card my-4" style="width: 18rem;">
-			<img src="{{this.picture}}" class="card-img-top" alt="{{this.title}}">
-			<div class="card-body">
-				<h5 class="card-title">{{this.title}}</h5>
-				<p class="card-text">{{this.description}}</p>
-				<a data-action="delete" href="#" class="btn btn-danger">Delete</a>
-			</div>
-		</div>
-	{{/each}}
+  {{#each allPosts}}
+  <div data-id="{{this.id}}" class="card my-4" style="width: 18rem;">
+    <img src="{{this.picture}}" class="card-img-top" alt="{{this.title}}">
+    <div class="card-body">
+      <h5 class="card-title">{{this.title}}</h5>
+      <p class="card-text">{{this.description}}</p>
+      <a data-action="delete" href="#" class="btn btn-danger">Delete</a>
+      <a data-action="edit" href="/edit/{{this.id}}" class="btn btn-danger">edit</a>
+
+    </div>
+  </div>
+  {{/each}}
 </div>
